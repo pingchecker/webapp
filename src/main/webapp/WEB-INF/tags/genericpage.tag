@@ -1,13 +1,15 @@
 <%@tag description="Overall Page template" pageEncoding="UTF-8"
        import="eu.matejkormuth.pingchecker.webapp.AppConstants" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@attribute name="title" required="true" %>
+<%@attribute name="bodyEnd" fragment="true" required="false" %>
 
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Pingchecker.eu</title>
+    <title>Pingchecker.eu - ${title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/main.css">
@@ -56,5 +58,6 @@
     ga('create', 'UA-XXXXX-X', 'auto');
     ga('send', 'pageview');
 </script>
+<jsp:invoke fragment="bodyEnd"/>
 </body>
 </html>

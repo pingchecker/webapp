@@ -1,6 +1,6 @@
 <%--
 
-    Pingchecker.eu webapp - Tool to periodically check services availability
+    pingchecker - Tool to periodically check services availability
     Copyright (c) 2015, Matej Kormuth <http://www.github.com/dobrakmato>
     All rights reserved.
 
@@ -30,7 +30,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<t:genericpage>
+<t:genericpage title="Account settings">
     <jsp:body>
         <h1>Settings</h1>
 

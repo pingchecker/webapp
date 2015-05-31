@@ -1,6 +1,6 @@
 <%--
 
-    Pingchecker.eu webapp - Tool to periodically check services availability
+    pingchecker - Tool to periodically check services availability
     Copyright (c) 2015, Matej Kormuth <http://www.github.com/dobrakmato>
     All rights reserved.
 
@@ -30,12 +30,8 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:genericpage>
-    <jsp:body>
-        <c:forEach var="category" items="${categories}">
-            <t:category category="${category}"/>
-        </c:forEach>
-
+<t:genericpage title="Targets">
+    <jsp:attribute name="bodyEnd">
         <script>
             $(document).ready(function () {
                 $(".category-name").click(function () {
@@ -43,5 +39,10 @@
                 });
             });
         </script>
+    </jsp:attribute>
+    <jsp:body>
+        <c:forEach var="category" items="${categories}">
+            <t:category category="${category}"/>
+        </c:forEach>
     </jsp:body>
 </t:genericpage>

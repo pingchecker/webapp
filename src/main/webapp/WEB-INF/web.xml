@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Pingchecker.eu webapp - Tool to periodically check services availability
+    pingchecker - Tool to periodically check services availability
     Copyright (c) 2015, Matej Kormuth <http://www.github.com/dobrakmato>
     All rights reserved.
 
@@ -64,6 +64,7 @@
         <servlet-name>default</servlet-name>
         <url-pattern>*.js</url-pattern>
         <url-pattern>*.css</url-pattern>
+        <url-pattern>*.css.map</url-pattern>
         <url-pattern>*.ico</url-pattern>
         <url-pattern>*.png</url-pattern>
         <url-pattern>*.jpg</url-pattern>

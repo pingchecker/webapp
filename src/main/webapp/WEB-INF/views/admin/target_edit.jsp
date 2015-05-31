@@ -1,6 +1,6 @@
 <%--
 
-    Pingchecker.eu webapp - Tool to periodically check services availability
+    pingchecker - Tool to periodically check services availability
     Copyright (c) 2015, Matej Kormuth <http://www.github.com/dobrakmato>
     All rights reserved.
 
