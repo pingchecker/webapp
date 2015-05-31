@@ -27,7 +27,6 @@
 package eu.matejkormuth.pingchecker.webapp.filters;
 
 import eu.matejkormuth.pingchecker.webapp.SessionAttributes;
-import eu.matejkormuth.pingchecker.webapp.exceptions.UserNotAuthenticated;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -35,6 +34,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class AuthenticationFilter extends GenericFilterBean {
@@ -45,7 +45,9 @@ public class AuthenticationFilter extends GenericFilterBean {
 
         // Check whether the user is authenticated.
         if (request1.getSession(true).getAttribute(SessionAttributes.USER_KEY) == null) {
-            throw new UserNotAuthenticated();
+            // Redirect to login.
+            String basePath = request.getServletContext().getContextPath();
+            ((HttpServletResponse) response).sendRedirect(basePath + "/login?redirect=" + ((HttpServletRequest) request).getRequestURI());
         }
 
         chain.doFilter(request, response);

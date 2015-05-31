@@ -9,6 +9,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Pingchecker.eu</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/main.css">
 </head>
 <body>

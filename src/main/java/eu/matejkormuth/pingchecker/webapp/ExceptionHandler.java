@@ -24,20 +24,22 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.pingchecker.webapp.controllers;
+package eu.matejkormuth.pingchecker.webapp;
 
-import eu.matejkormuth.pingchecker.webapp.exceptions.UserNotAuthenticated;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @ControllerAdvice
-public class ExceptionHandlingController {
+public class ExceptionHandler implements HandlerExceptionResolver {
 
-    @ExceptionHandler(UserNotAuthenticated.class)
-    public ModelAndView handleUserNotAuthenticated(HttpServletRequest request, UserNotAuthenticated ex) {
+    @Override
+    public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response,
+                                         Object handler, Exception ex) {
+        // TODO: Remove this irrelevant code.
         ModelAndView modelAndView = new ModelAndView("login");
         modelAndView.addObject("error", "You have to be authenticated to view this page!");
         modelAndView.addObject("request", request);

@@ -54,4 +54,6 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
             <value>a</value>
         </property>
     </bean>
+
+    <bean name="exceptionHandler" class="eu.matejkormuth.pingchecker.webapp.ExceptionHandler"></bean>
 </beans>

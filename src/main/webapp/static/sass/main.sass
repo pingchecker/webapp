@@ -1,0 +1,255 @@
+// Import font from Google Fonts.
+@import url("http://fonts.googleapis.com/css?family=Roboto+Condensed&subset=latin,latin-ext")
+@import "animations"
+
+// Basic variables.
+$fontMain: 'Roboto Condensed', sans-serif
+$fontSize: 1em
+
+$red: #f25353
+$blue: #22aaff
+$green: #2eeb6f
+
+$darkRed: darken($red, 10%)
+$darkBlue: darken($blue, 10%)
+$darkGreen: darken($green, 10%)
+
+$lightRed: lighten($red, 10%)
+$lightBlue: lighten($blue, 10%)
+$lightGreen: lighten($green, 10%)
+
+$maxWidth: 600px
+
+// Reusable components.
+.circle
+  border-radius: 50%
+
+// Main components.
+
+html, body
+  margin: 0
+  padding: 0
+  font-family: $fontMain
+
+.main
+  max-width: $maxWidth
+  padding: 1em
+  margin: 0 auto
+
+.em
+  background: rgba(255, 225, 0, 0.24)
+
+.category
+  padding: 4px
+
+.category-name
+  background: $blue
+  border: 1px solid rgba(0, 0, 0, 0.25)
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.33)
+  color: #fff
+  padding: 4px
+  border-radius: 4px
+  font-size: 1.2em
+  margin-bottom: 6px
+  font-weight: 900
+  transition: 150ms ease all
+
+.expander
+  float: right
+  padding-right: 4px
+  vertical-align: middle
+  line-height: 1.2em
+
+.category-name:hover
+  background: $lightBlue
+  cursor: pointer
+
+.service-state
+  @extend .circle
+  display: inline-block
+  background: #ccc
+  width: 1em
+  height: 1em
+  top: 3px
+  position: relative
+  border: 1px solid rgba(0, 0, 0, 0.14)
+
+.online
+  background: $green
+
+.offline
+  background: $red
+
+.service
+  vertical-align: middle
+  padding-left: 4px
+  background: #fafafa
+  border: 1px solid rgba(0, 0, 0, 0.14)
+  border-radius: 4px
+  margin: 4px 6px 6px 6px
+  cursor: pointer
+  transition: 150ms ease all
+
+.service:hover
+  background: #f0f0f0
+
+.service-name
+  font-size: 1em
+  color: black
+  display: inline-block
+  margin: 3px 3px
+
+.service-availability
+  float: right
+  background: rgba(0, 0, 0, 0.1)
+  border: 1px solid rgba(0, 0, 0, 0.2)
+  padding: 3px 4px 3px 8px
+  width: 2.5em
+  border-radius: 0px 4px 4px 0px
+  position: relative
+  top: -1px
+  right: -1px
+
+.footer
+  text-align: center
+  display: block
+  margin-bottom: 4px
+  color: #ccc
+
+.footer a
+  color: #777
+
+.footer a:hover
+  color: #222
+
+// Input components.
+
+form
+  max-width: $maxWidth
+  background: #fafafa
+  border: 1px solid #eee
+  border-radius: 4px
+  padding: 1em
+  margin-top: 1em
+
+form p
+  text-align: center
+  margin: 0px 0px 12px 0px
+
+.error
+  +animation(fadeIn 500ms)
+  font-size: 0.9em
+  color: #ffffff
+  background: $lightRed
+  padding: 4px
+  border: 1px solid $red
+  border-radius: 3px
+
+form:after
+  content: "."
+  display: block
+  height: 0
+  clear: both
+  visibility: hidden
+
+label
+  display: block
+  margin: 0px
+  font-size: 1em
+
+input
+  box-sizing: border-box
+  transition: 300ms ease all
+
+input[type="email"], input[type="password"]
+  display: block
+  margin: 8px 0px
+  font-size: 1em
+  padding: 0.5em
+  width: 100%
+  border: 1px solid #ccc
+  border-radius: 4px
+  background: #fff
+
+input[type="email"]:disabled, input[type="password"]:disabled
+  background: #cacaca
+  border: #aaa
+  cursor: not-allowed
+
+input[type="submit"]
+  background: $blue
+  padding: 8px 12px
+  font-size: 1em
+  color: white
+  border-radius: 4px
+  border: 1px solid $darkBlue
+  float: right
+
+input[type="submit"]:disabled, input[type="submit"]:hover:disabled
+  background: #888
+  border: #666
+  cursor: not-allowed
+
+input[type="submit"]:hover
+  background: $lightBlue
+
+input:hover
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1)
+
+.target_table
+  margin: 8px 0px
+  border-spacing: 0
+  width: 100%
+  border: 1px solid #aaa
+  border-collapse: collapse
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.1)
+
+.target_table td
+  padding: 6px
+  margin: 2px
+  background: #fcfcfc
+
+.target_table tr
+  border-bottom: 1px solid #777
+
+.target_table tr:last-child
+  border-bottom: none
+
+.target_table td:first-child
+  background: $blue
+  color: #fff
+  font-weight: 900
+  width: 20%
+  text-shadow: 0px 0px 2px black
+
+.graph_controls, .graph
+  margin: 0
+
+.graph_controls
+  margin: 4px 0px
+
+.graph
+  border: 1px solid #888
+  width: 100%
+  height: 120px
+
+.graph_controls span
+  padding: 4px
+  background: $blue
+  color: white
+  border: 1px solid $darkBlue
+  border-bottom: none
+  border-radius: 4px 4px 0px 0px
+  cursor: pointer
+
+.graph_controls span:hover
+  background: $blue
+
+.screenshot
+  width: 100%
+  box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, .5)
+  border-radius: 4px
+  margin-bottom: 1em
+
+
+

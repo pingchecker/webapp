@@ -1,0 +1,24 @@
+// Reusable components.
+=keyframes($name)
+  @-webkit-keyframes #{$name}
+    @content
+  @-moz-keyframes #{$name}
+    @content
+  @-ms-keyframes #{$name}
+    @content
+  @keyframes #{$name}
+    @content
+
+=animation($content)
+  -webkit-animation: $content
+  -moz-animation: $content
+  -ms-animation: $content
+  animation: $content
+
+// Animations.
+.fadeIn
+  +keyframes(fadeIn)
+    0%
+      opacity: 0.0
+    100%
+      opacity: 1.0

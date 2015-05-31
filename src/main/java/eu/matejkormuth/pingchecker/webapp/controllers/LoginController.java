@@ -43,12 +43,19 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     @RequestMapping("/login")
-    public ModelAndView login() {
+    public ModelAndView login(@RequestParam(value = "redirect", defaultValue = "") String redirect) {
+        if (redirect != null && !redirect.isEmpty()) {
+            ModelAndView modelAndView = new ModelAndView("login");
+            modelAndView.addObject("error", "You have to authenticated to view that page!");
+            return modelAndView;
+        }
+
         return new ModelAndView("login");
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Object doLogin(@RequestParam("email") String email,
+    public Object doLogin(@RequestParam(value = "redirect", defaultValue = "") String redirect,
+                          @RequestParam("email") String email,
                           @RequestParam("password") String password,
                           HttpSession session) throws ServletException {
         User user = Ebean.createQuery(User.class)
@@ -67,8 +74,12 @@ public class LoginController {
         if (password.equals(user.getPassword())) {
             session.setAttribute(SessionAttributes.USER_KEY, user);
 
-            // Redirect to target view.
-            return new RedirectView("/admin/targets");
+            if (redirect != null && !redirect.isEmpty()) {
+                return new RedirectView(redirect);
+            } else {
+                // Redirect to target view.
+                return new RedirectView("/admin/targets");
+            }
         } else {
             ModelAndView modelAndView = new ModelAndView("login");
             modelAndView.addObject("error", "Invalid password.");

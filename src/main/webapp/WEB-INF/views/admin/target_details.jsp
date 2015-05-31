@@ -39,12 +39,12 @@
             <c:when test="${lastPing != null}">
                 <c:choose>
                     <c:when test="${lastPing.ping >= 0}">
-                        <b style="color: #31be3a">Online (latency ${lastPing.ping} ms)</b>
+                        <b class="online">Online (latency ${lastPing.ping} ms)</b>
                         <small style="color: #ccc" title="Last checked">${lastPing.timestamp}</small>
                         <br>
                     </c:when>
                     <c:otherwise>
-                        <b style="color: #c90022">Offline (error ${lastPing.ping})</b>
+                        <b class="offline">Offline (error ${lastPing.ping})</b>
                         <small style="color: #ccc" title="Last checked">${lastPing.timestamp}</small>
                         <br>
                     </c:otherwise>
