@@ -1,45 +1,45 @@
 /**
  * ====
- *     pingchecker - Tool to periodically check services availability
- *     Copyright (c) 2015, Matej Kormuth <http://www.github.com/dobrakmato>
- *     All rights reserved.
- *
- *     Redistribution and use in source and binary forms, with or without modification,
- *     are permitted provided that the following conditions are met:
- *
- *     1. Redistributions of source code must retain the above copyright notice, this
- *     list of conditions and the following disclaimer.
- *
- *     2. Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation and/or
- *     other materials provided with the distribution.
- *
- *     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- *     ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- *     WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *     DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
- *     ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- *     (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- *     LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
- *     ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- *     (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- *     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * ====
- *
- * Pingchecker.eu webapp - Tool to periodically check services availability
+ * pingchecker - Tool to periodically check services availability
  * Copyright (c) 2015, Matej Kormuth <http://www.github.com/dobrakmato>
  * All rights reserved.
- *
+ * <p>
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- *
+ * <p>
  * 1. Redistributions of source code must retain the above copyright notice, this
  * list of conditions and the following disclaimer.
- *
+ * <p>
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or
  * other materials provided with the distribution.
- *
+ * <p>
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ====
+ * <p>
+ * Pingchecker.eu webapp - Tool to periodically check services availability
+ * Copyright (c) 2015, Matej Kormuth <http://www.github.com/dobrakmato>
+ * All rights reserved.
+ * <p>
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ * <p>
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ * <p>
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation and/or
+ * other materials provided with the distribution.
+ * <p>
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -100,7 +100,7 @@ public class TargetController {
 
         // Build json with reversed order (ascending).
         for (Ping ping : new Reversed<>(pingList)) {
-            if(data.length() > 0) {
+            if (data.length() > 0) {
                 data.append(", ");
                 labels.append("\", \"");
             }
@@ -109,13 +109,14 @@ public class TargetController {
         }
 
         Ping ping = null;
-        if(pingList.size() > 0) {
+        if (pingList.size() > 0) {
             ping = pingList.get(0);
         }
 
         ModelAndView modelAndView = new ModelAndView("admin/target_details");
         modelAndView.addObject("service", target);
         modelAndView.addObject("lastPing", ping);
+        modelAndView.addObject("checkTypes", Target.Type.values());
         modelAndView.addObject("graphLabels", "\"" + labels.toString() + "\"");
         modelAndView.addObject("graphData", data.toString());
 
@@ -125,7 +126,8 @@ public class TargetController {
     @RequestMapping(value = "/target/{id}", method = RequestMethod.POST)
     public Object updateDetails(@PathVariable("id") int id,
                                 @RequestParam("service_address") String serviceAddress,
-                                @RequestParam("service_type") String serviceType,
+                                @RequestParam("service_name") String serviceName,
+                                @RequestParam("check_type") String serviceType,
                                 @RequestParam("check_interval") int checkInterval) {
 
         String errors = "";
@@ -135,8 +137,16 @@ public class TargetController {
             errors += "Target address can't be empty!<br>";
         }
 
+        if (serviceName.isEmpty()) {
+            errors += "Name can't be empty!<br>";
+        }
+
         try {
-            InetAddress.getByName(serviceAddress);
+            if(serviceAddress.contains(":")) {
+                InetAddress.getByName(serviceAddress.split(":")[0]);
+            } else {
+                InetAddress.getByName(serviceAddress);
+            }
         } catch (UnknownHostException e) {
             errors += "Specified target address is not valid IP address or hostname!<br>";
         }
@@ -167,15 +177,30 @@ public class TargetController {
         List<Ping> pingList = Ebean.createQuery(Ping.class)
                 .where()
                 .eq("target_id", id)
+                .ge("timestamp", new Timestamp(System.currentTimeMillis() - 7 * 24 * 60 * 60 * 1000))
                 .query()
                 .orderBy()
                 .desc("timestamp")
-                .setMaxRows(1)
                 .findList();
 
         Ping ping = null;
-        if (pingList.size() == 1) {
+        if (pingList.size() >= 1) {
             ping = pingList.get(0);
+        }
+
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM");
+        StringBuilder labels = new StringBuilder();
+        StringBuilder data = new StringBuilder();
+
+        // Build json with reversed order (ascending).
+        for (Ping ping2 : new Reversed<>(pingList)) {
+            if (data.length() > 0) {
+                data.append(", ");
+                labels.append("\", \"");
+            }
+            data.append(ping2.getPing());
+            labels.append(simpleDateFormat.format(ping2.getTimestamp()));
         }
 
         if (errors.isEmpty()) {
@@ -187,27 +212,15 @@ public class TargetController {
                     .findUnique();
 
             target.setAddress(serviceAddress);
+            target.setName(serviceName);
             target.setType(Target.Type.valueOf(serviceType));
             target.setCheckInterval(checkInterval);
             Ebean.update(target);
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM");
-            StringBuilder labels = new StringBuilder();
-            StringBuilder data = new StringBuilder();
-
-            // Build json with reversed order (ascending).
-            for (Ping ping2 : new Reversed<>(pingList)) {
-                if(data.length() > 0) {
-                    data.append(", ");
-                    labels.append("\", \"");
-                }
-                data.append(ping2.getPing());
-                labels.append(simpleDateFormat.format(ping2.getTimestamp()));
-            }
-
             ModelAndView modelAndView = new ModelAndView("admin/target_details");
             modelAndView.addObject("service", target);
             modelAndView.addObject("lastPing", ping);
+            modelAndView.addObject("checkTypes", Target.Type.values());
             modelAndView.addObject("graphLabels", "\"" + labels.toString() + "\"");
             modelAndView.addObject("graphData", data.toString());
             modelAndView.addObject("success", "Configuration updated!");
@@ -226,6 +239,9 @@ public class TargetController {
             ModelAndView modelAndView = new ModelAndView("admin/target_details");
             modelAndView.addObject("service", target);
             modelAndView.addObject("lastPing", ping);
+            modelAndView.addObject("checkTypes", Target.Type.values());
+            modelAndView.addObject("graphLabels", "\"" + labels.toString() + "\"");
+            modelAndView.addObject("graphData", data.toString());
             modelAndView.addObject("error", errors);
             return modelAndView;
         }

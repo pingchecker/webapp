@@ -71,11 +71,26 @@
             <c:if test="${not empty error}">
                 <p class="error">${error}</p>
             </c:if>
+
+            <label for="service_name">Name:</label>
+            <input type="text" id="service_name" name="service_name" value="${service.name}" required>
+
             <label for="service_address">Target address:</label>
             <input type="text" id="service_address" name="service_address" value="${service.address}" required>
 
-            <label for="service_type">Check type:</label>
-            <input type="text" id="service_type" name="service_type" value="${service.type}" required>
+            <label for="check_type">Check type:</label>
+            <select id="check_type" name="check_type" value="${service.type}" required>
+                <c:forEach var="check_type" items="${checkTypes}">
+                    <c:choose>
+                        <c:when test="${check_type == service.type}">
+                            <option value="${check_type}" selected="selected">${check_type}</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value="${check_type}">${check_type}</option>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </select>
 
             <label for="check_interval">Check interval (minutes):</label>
             <input type="text" id="check_interval" name="check_interval" value="${service.checkInterval}" required>

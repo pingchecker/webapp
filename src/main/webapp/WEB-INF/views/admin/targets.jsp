@@ -14,7 +14,7 @@
                     var serviceElement = $(this);
                     $.getJSON("/api/v1/target/" + id + "/pings?limit=1", function (data) {
                         if (data.length > 0) {
-                            if (data[0].latency > 0) {
+                            if (data[0].latency >= 0) {
                                 serviceElement.children(".service-state")
                                         .addClass("online")
                                         .attr("title", "Last checked: " + data[0].timestamp + "\nLatency: "
@@ -23,7 +23,7 @@
                             } else {
                                 serviceElement.children(".service-state")
                                         .addClass("offline")
-                                        .attr("title", "Last checked: " + data[0].timestamp + "\Error: "
+                                        .attr("title", "Last checked: " + data[0].timestamp + "\nError: "
                                         + data[0].latency);
                                 ;
                             }
