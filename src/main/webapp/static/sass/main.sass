@@ -24,6 +24,21 @@ $maxWidth: 600px
 .circle
   border-radius: 50%
 
+=block($color)
+  max-width: $maxWidth
+  background: $color
+  border: 1px solid darken(desaturate($color, 50%), 10%)
+  padding: 1em
+  border-radius: 4px
+
+%clearfix
+  &:after
+    content: ""
+    display: table
+    clear: both
+
+
+
 // Main components.
 
 html, body
@@ -75,9 +90,13 @@ html, body
   border: 1px solid rgba(0, 0, 0, 0.14)
 
 .online
+  transform: rotateY(180deg)
+  transition: 500ms ease all
   background: $green
 
 .offline
+  transform: rotateY(180deg)
+  transition: 500ms ease all
   background: $red
 
 .service
@@ -110,31 +129,29 @@ html, body
   top: -1px
   right: -1px
 
+footer
+  margin-bottom: 2em
+
 .footer
   text-align: center
   display: block
   margin-bottom: 4px
   color: #ccc
 
-.footer a
-  color: #777
-
-.footer a:hover
-  color: #222
+  a
+    color: #777
+  a:hover
+    color: #222
 
 // Input components.
 
 form
-  max-width: $maxWidth
-  background: #fafafa
-  border: 1px solid #eee
-  border-radius: 4px
-  padding: 1em
+  +block(#fafafa)
   margin-top: 1em
 
-form p
-  text-align: center
-  margin: 0px 0px 12px 0px
+  p
+    text-align: center
+    margin: 0px 0px 12px 0px
 
 .error
   +animation(fadeIn 500ms)
@@ -145,12 +162,8 @@ form p
   border: 1px solid $red
   border-radius: 3px
 
-form:after
-  content: "."
-  display: block
-  height: 0
-  clear: both
-  visibility: hidden
+form
+  @extend %clearfix
 
 label
   display: block
@@ -161,20 +174,27 @@ input
   box-sizing: border-box
   transition: 300ms ease all
 
-input[type="email"], input[type="password"]
+input
   display: block
   margin: 8px 0px
   font-size: 1em
   padding: 0.5em
-  width: 100%
   border: 1px solid #ccc
   border-radius: 4px
   background: #fff
 
-input[type="email"]:disabled, input[type="password"]:disabled
+input[type="text"], input[type="email"], input[type="password"]
+  width: 100%
+input[type="submit"]
+  cursor: pointer
+
+input:disabled
   background: #cacaca
   border: #aaa
   cursor: not-allowed
+
+input:hover
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1)
 
 input[type="submit"]
   background: $blue
@@ -193,9 +213,6 @@ input[type="submit"]:disabled, input[type="submit"]:hover:disabled
 input[type="submit"]:hover
   background: $lightBlue
 
-input:hover
-  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1)
-
 .target_table
   margin: 8px 0px
   border-spacing: 0
@@ -203,47 +220,39 @@ input:hover
   border: 1px solid #aaa
   border-collapse: collapse
   box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.1)
-
-.target_table td
-  padding: 6px
-  margin: 2px
-  background: #fcfcfc
-
-.target_table tr
-  border-bottom: 1px solid #777
-
-.target_table tr:last-child
-  border-bottom: none
-
-.target_table td:first-child
-  background: $blue
-  color: #fff
-  font-weight: 900
-  width: 20%
-  text-shadow: 0px 0px 2px black
-
-.graph_controls, .graph
-  margin: 0
+  tr
+    border-bottom: 1px solid #777
+  tr:last-child
+    border-bottom: none
+  td
+    padding: 6px
+    margin: 2px
+    background: #fcfcfc
+  td:first-child
+    background: $blue
+    color: #fff
+    font-weight: 900
+    width: 20%
+    text-shadow: 0px 0px 2px black
 
 .graph_controls
   margin: 4px 0px
 
+  span
+    padding: 4px
+    background: $blue
+    color: white
+    border: 1px solid $darkBlue
+    border-bottom: none
+    border-radius: 4px 4px 0px 0px
+    cursor: pointer
+  span:hover
+    background: $blue
+
 .graph
-  border: 1px solid #888
+  margin: 0
   width: 100%
   height: 120px
-
-.graph_controls span
-  padding: 4px
-  background: $blue
-  color: white
-  border: 1px solid $darkBlue
-  border-bottom: none
-  border-radius: 4px 4px 0px 0px
-  cursor: pointer
-
-.graph_controls span:hover
-  background: $blue
 
 .screenshot
   width: 100%
@@ -251,5 +260,26 @@ input:hover
   border-radius: 4px
   margin-bottom: 1em
 
+.serverStatus
+  padding: 4px
+  border-radius: 3px
+  border: 1px solid black
 
+.lastChecked
+  color: #888
+  left: -130px
+  position: relative
+  z-index: -999
+  transition: 300ms ease all
 
+.infoBox
+  +block(lightyellow)
+
+.success
+  +animation(fadeIn 500ms)
+  font-size: 0.9em
+  color: #ffffff
+  background: $lightGreen
+  padding: 4px
+  border: 1px solid $green
+  border-radius: 3px

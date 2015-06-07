@@ -51,22 +51,25 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.pingchecker.webapp.controllers;
+package eu.matejkormuth.pingchecker.webapp.filters;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.filter.GenericFilterBean;
 
-@Controller
-public class IndexController {
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import java.io.IOException;
 
-    @RequestMapping("/")
-    public ModelAndView index() {
-        return new ModelAndView("index");
+public class ApiFilter extends GenericFilterBean {
+
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
+            throws ServletException, IOException {
+
+        // TODO: Add access token check.
+
+        chain.doFilter(req, resp);
     }
 
-    @RequestMapping("/aboutus")
-    public ModelAndView aboutUs() {
-        return new ModelAndView("aboutus");
-    }
 }

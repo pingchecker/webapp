@@ -25,21 +25,24 @@
 </div>
 
 <!-- Standard footer. -->
-<small class="footer">
-    <c:choose>
-        <c:when test="${sessionScope.user != null}">
-            <a href="/admin/targets">Targets</a> |
-            <a href="/admin/settings">Settings</a> |
-            <a href="/logout">Log out</a> |
-        </c:when>
-        <c:otherwise>
-            <a href="/login">Log in</a> |
-        </c:otherwise>
-    </c:choose>
-    <a href="/">About us</a>
-</small>
-<small class="footer">&copy; Pingchecker.eu 2015 | Version: <%= AppConstants.VERSION %> <%= AppConstants.COMMIT %>
-</small>
+<footer>
+    <small class="footer">
+        <c:choose>
+            <c:when test="${sessionScope.user != null}">
+                <a href="/admin/targets">Targets</a> |
+                <a href="/admin/settings">Settings</a> |
+                <a href="/logout">Log out</a> |
+            </c:when>
+            <c:otherwise>
+                <a href="/login">Log in</a> |
+            </c:otherwise>
+        </c:choose>
+        <a href="/">About us</a>
+    </small>
+    <small class="footer" title="Crafted with ♥ by dobrakmato <http://gihub.com/dobrakmato>">
+        &copy; Pingchecker.eu 2015 | Version: <%= AppConstants.VERSION %> <%= AppConstants.COMMIT %>
+    </small>
+</footer>
 
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script>

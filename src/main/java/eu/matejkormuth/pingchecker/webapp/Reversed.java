@@ -51,22 +51,38 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.pingchecker.webapp.controllers;
+package eu.matejkormuth.pingchecker.webapp;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
-@Controller
-public class IndexController {
+public class Reversed<T> implements Iterable<T> {
 
-    @RequestMapping("/")
-    public ModelAndView index() {
-        return new ModelAndView("index");
+    private final List<T> original;
+
+    public Reversed(List<T> original) {
+        this.original = original;
     }
 
-    @RequestMapping("/aboutus")
-    public ModelAndView aboutUs() {
-        return new ModelAndView("aboutus");
+    @Override
+    public Iterator<T> iterator() {
+        final ListIterator<T> originalIterator = original.listIterator(original.size());
+        return new Iterator<T>() {
+            @Override
+            public boolean hasNext() {
+                return originalIterator.hasPrevious();
+            }
+
+            @Override
+            public T next() {
+                return originalIterator.previous();
+            }
+
+            @Override
+            public void remove() {
+                originalIterator.remove();
+            }
+        };
     }
 }
