@@ -53,6 +53,11 @@
             <version>5.1.35</version>
         </dependency>
         <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.4-1201-jdbc41</version>
+        </dependency>
+        <dependency>
             <groupId>eu.matejkormuth.pingchecker</groupId>
             <artifactId>beans</artifactId>
             <version>1.0-SNAPSHOT</version>

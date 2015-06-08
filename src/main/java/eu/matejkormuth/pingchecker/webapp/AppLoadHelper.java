@@ -80,11 +80,13 @@ public class AppLoadHelper {
         // config.setDdlGenerate(true);
         // config.setDdlRun(true);
 
+        String dbUrl = System.getenv("DATABASE_URL");
+
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
-        dataSourceConfig.setDriver("com.mysql.jdbc.Driver");
-        dataSourceConfig.setUsername("root");
-        dataSourceConfig.setPassword("");
-        dataSourceConfig.setUrl("jdbc:mysql://127.0.0.1:3306/pingchecker");
+        dataSourceConfig.setDriver("org.postgresql.Driver");
+        //dataSourceConfig.setUsername("root");
+        //dataSourceConfig.setPassword("");
+        dataSourceConfig.setUrl(dbUrl); // "jdbc:mysql://127.0.0.1:3306/pingchecker"
 
         config.setDataSourceConfig(dataSourceConfig);
 
