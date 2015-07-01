@@ -73,6 +73,13 @@
             <version>0.7.5</version>
         </dependency>
     </dependencies>
+    
+    <repositories>
+         <repository>
+             <id>matejkormuth-repo</id>
+             <url>http://repo.matejkormuth.eu/</url>
+         </repository>
+    </repositories>
 
     <build>
         <plugins>
