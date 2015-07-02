@@ -85,6 +85,8 @@ public class AppLoadHelper {
         String dbPass = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
         String dbPort = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
         
+        dbUrl = "jdbc:" + dbUrl;
+        
         System.out.println("DB URL:" + dbUrl);
         System.out.println("DB USER:" + dbUser);
         System.out.println("DB PASS:" + dbPass);
