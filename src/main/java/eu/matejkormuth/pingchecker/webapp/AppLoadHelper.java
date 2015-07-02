@@ -81,11 +81,19 @@ public class AppLoadHelper {
         // config.setDdlRun(true);
 
         String dbUrl = System.getenv("OPENSHIFT_MYSQL_DB_URL");
+        String dbUser = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
+        String dbPass = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
+        String dbPort = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
+        
+        System.out.println("DB URL:" + dbUrl);
+        System.out.println("DB USER:" + dbUser);
+        System.out.println("DB PASS:" + dbPass);
+        System.out.println("DB PORT:" + dbPort);
 
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDriver("com.mysql.jdbc.Driver");
-        //dataSourceConfig.setUsername("root");
-        //dataSourceConfig.setPassword("");
+        dataSourceConfig.setUsername(dbUser);
+        dataSourceConfig.setPassword(dbPass);
         dataSourceConfig.setUrl(dbUrl); // "jdbc:mysql://127.0.0.1:3306/pingchecker"
 
         config.setDataSourceConfig(dataSourceConfig);
