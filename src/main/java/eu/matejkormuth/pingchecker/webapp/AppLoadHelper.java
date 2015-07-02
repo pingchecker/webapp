@@ -84,8 +84,9 @@ public class AppLoadHelper {
         String dbUser = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
         String dbPass = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
         String dbPort = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
+        String dbHost = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
         
-        dbUrl = "jdbc:" + dbUrl;
+        dbUrl = "jdbc:mysql://" + dbHost + ":" + dbPort + "/pingchecker";
         
         System.out.println("DB URL:" + dbUrl);
         System.out.println("DB USER:" + dbUser);
